@@ -2,6 +2,7 @@
 import os
 import discord
 import random
+import youtube_dl
 from dotenv import load_dotenv
 from discord.ext import commands
 
@@ -90,6 +91,48 @@ async def choose(ctx, num1: int, num2: int):
 	# exception handler
 	else:
 		raise discord.DiscordException
+
+# bot command (-play)
+# play music from Youtube
+@bot.command(name = 'play')
+async def play(ctx, url: str):
+	song = os.path.isfile('song.mp3')
+	try:
+		if song:
+			os.remove('song.mp3')
+	except PermissionError:
+		await ctx.send("Current music is still playing. Wait for it to end or use the -stop command")
+		return
+	
+	vc = discord.utils.get(ctx.guild.voice_channels)
+	await vc.connect()
+	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+
+	ydl_opts = {
+		'format': 'bestaudio/best',
+		'postprocessors': [{
+			'key': 'FFmpegExtractAudio',
+			'preferredcodec': 'mp3',
+			'preferredquality': '192',
+		}],
+	}
+
+	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+		ydl.download([url])
+	for file in os.listdir("./"):
+		if file.endswith(".mp3"):
+			os.rename(file, "song.mp3")
+	v.play(discord.FFmpegPCMAudio("song.mp3"))
+
+# bot command (-exit)
+# exit the bot from VC
+@bot.command(name = 'exit')
+async def exit(ctx):
+	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+	if v.is_connected():
+		await v.disconnect()
+	else:
+		await ctx.send("I'm not connected to a voice channel!")
 
 # handles exception that occurs and log the error
 @bot.event
