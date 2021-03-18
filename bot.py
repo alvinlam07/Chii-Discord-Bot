@@ -134,6 +134,29 @@ async def exit(ctx):
 	else:
 		await ctx.send("I'm not connected to a voice channel!")
 
+# bot command (-pause)
+# pauses the music the bot is currently playing
+@bot.command(name = 'pause')
+async def pause(ctx):
+	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+	if v.is_playing(): v.pause()
+	else: await ctx.send("No music is being played at the moment!")
+
+# bot command (-resume)
+# resumes the music if it is paused
+@bot.command(name = 'resume')
+async def resume(ctx):
+	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+	if v.is_paused(): v.resume()
+	else: await ctx.send("The music is not paused!")
+
+# bot command (-stop)
+# stops the music the bot is playing
+@bot.command(name = 'stop')
+async def stop(ctx):
+	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+	v.stop()
+
 # handles exception that occurs and log the error
 @bot.event
 async def on_error(event, *args, **kwargs):
