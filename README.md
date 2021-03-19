@@ -22,8 +22,8 @@ resume | Resumes the music from bot if it is paused
 stop | Stops the music the bot is playing
 
 ### TODOs
--[] React to certain string messages
--[] Add game command where users could interact with it
--[] Add a GitHub webhook
--[] Add other APIs to it (Spotify, Weather, image-based, etc.)
--[] Host it in the cloud (using [repl.it](https://repl.it))
+- [ ] React to certain string messages
+- [ ] Add game command where users could interact with it
+- [ ] Add a GitHub webhook
+- [ ] Add other APIs to it (Spotify, Weather, image-based, etc.)
+- [ ] Host it in the cloud (using [repl.it](https://repl.it))
