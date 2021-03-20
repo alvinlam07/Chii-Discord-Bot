@@ -1,4 +1,4 @@
-# Chii-Discord-Bot
+# Chii Discord Bot
 
 ### About
 Chii is a personal Discord bot that is in continuous development.
