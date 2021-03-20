@@ -3,15 +3,17 @@
 ### About
 Chii is a personal Discord bot that is in continuous development.
 
-It uses [Discord API](https://discord.com/developers/docs/reference) and [Youtube API](https://pypi.org/project/youtube_dl/).
+It uses [Discord API](https://discord.com/developers/docs/reference), [Youtube API](https://pypi.org/project/youtube_dl/), & [OpenWeather API](https://openweathermap.org/api).
 
 Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
 
 ### Features
 * Welcome new members to the server via direct message
-* React and respond back to certain strings in chat
-* Probability commands
-* Music commands using Youtube links
+* Respond back to certain messages
+* React to certain messages
+* Probability
+* Play audio (YT)
+* Display the weather
 
 ### Installation
 You can invite Chii to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
@@ -33,17 +35,18 @@ Command Name | Description
 -------------|------------
 coinflip | Flips a coin
 rolldice | Rolls a dice
-choose | Chooses a number between n and m (n and m are user's argument values)
-play | Play music using, so far, Youtube links
+choose *n* *m* | Chooses a number between n and m (n and m are user's argument values)
+play *YTlink* | Play music using, so far, Youtube links
 exit | Exit the bot from voice channel
 pause | Pauses the music the bot is currently playing
 resume | Resumes the music from bot if it is paused
 stop | Stops the music the bot is playing
+weather *city* | Display weather information for a city
 
 ### TODOs
 Chii is still in development therefore I will be adding new features/updates at an upcoming time.
 Below are ideas that I would like to implement:
-- [ ] React to certain string messages
+- [x] React to certain string messages
 - [ ] Add game command where users could interact with it
 - [ ] Add a GitHub webhook
 - [ ] Add other APIs to it (Spotify, Weather, image-based, etc.)
