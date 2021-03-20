@@ -1,13 +1,32 @@
 # Chii-Discord-Bot
-My personal python Discord bot.
 
-It uses [Youtube APIs](https://pypi.org/project/youtube_dl/) to download and play audio from Youtube.
+### About
+Chii is a personal Discord bot that is in continuous development.
 
-### What can it do so far?
-* Welcome new members to the server
+It uses [Discord API](https://discord.com/developers/docs/reference) and [Youtube API](https://pypi.org/project/youtube_dl/).
+
+Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
+
+### Features
+* Welcome new members to the server via direct message
 * React and respond back to certain strings in chat
 * Probability commands
-* Play music using Youtube links
+* Music commands using Youtube links
+
+### Installation
+You can invite Chii to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
+Alternatively, you can clone this repo and host it yourself:
+```
+git clone https://github.com/alam1517/Chii-Discord-Bot.git
+```
+Make sure that you install the discord.py, youtube_dl, and dotenv if you do not have it:
+```
+pip install -U discord.py
+
+pip install -U youtube_dl
+
+pip install -U python-dotenv
+```
 
 ### Commands (prefix "-")
 Command Name | Description
@@ -22,6 +41,8 @@ resume | Resumes the music from bot if it is paused
 stop | Stops the music the bot is playing
 
 ### TODOs
+Chii is still in development therefore I will be adding new features/updates at an upcoming time.
+Below are ideas that I would like to implement:
 - [ ] React to certain string messages
 - [ ] Add game command where users could interact with it
 - [ ] Add a GitHub webhook
