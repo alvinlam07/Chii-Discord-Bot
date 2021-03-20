@@ -3,13 +3,19 @@ import os
 import discord
 import random
 import youtube_dl
+import requests, json
 from dotenv import load_dotenv
 from discord.ext import commands
 
 # loads the .env file
 load_dotenv()
+
 # grab the API token from the .env file
 TOKEN = os.getenv('DISCORD_TOKEN')
+WEATHER = os.getenv('WEATHER_TOKEN')
+
+# url(s)
+weather_url = "http://api.openweathermap.org/data/2.5/weather?"
 
 # create bot object and defined the prefix for bot commands
 bot = commands.Bot(command_prefix = '-')
@@ -21,6 +27,7 @@ random.seed
 async def on_ready():
 	print(f'{bot.user.name} has connected to Discord!')
 
+# need to fix this
 @bot.event
 async def on_member_join(member):
 	guild = discord.utils.get(bot.guilds)
@@ -35,6 +42,8 @@ async def on_message(message):
 	if message.author == bot.user:
 		return
 
+	# -------responding back to string messages-------
+
 	# wishes someone a happy birthday message
 	if "happy birthday" in message.content.lower():
 		await message.channel.send('Happy Birthday! 🎈🎉')
@@ -46,6 +55,21 @@ async def on_message(message):
 		await message.channel.send('Never gonna make you cry!')
 	elif "never gonna say goodbye" in message.content.lower():
 		await message.channel.send('Never gonna tell a lie and hurt you!')
+
+	#-----------reacting to string messages-----------
+
+	# need to fix
+	if "hi" or "hey" or "hello" in message.content.lower():
+		await message.add_reaction('👋')
+
+	elif "nice" or "ok" in message.content.lower():
+		await message.add_reaction('👌')
+	
+	elif "please" in message.content.lower():
+		await message.add_reaction('🥺')
+
+	elif "love" in message.content.lower():
+		await message.add_reaction('💖')
 
 	# need this to trigger bot commands
 	await bot.process_commands(message)
@@ -79,7 +103,7 @@ async def dice_roll(ctx):
 	else:
 		raise discord.DiscordException
 
-# bot command (-choose)
+# bot command (-choose n m)
 # chooses a number between n and m
 @bot.command(name = 'choose')
 async def choose(ctx, num1: int, num2: int):
@@ -92,17 +116,16 @@ async def choose(ctx, num1: int, num2: int):
 	else:
 		raise discord.DiscordException
 
-# bot command (-play)
+# bot command (-play [YTlink])
 # play music from Youtube
 @bot.command(name = 'play')
-async def play(ctx, url: str):
+async def play(ctx, url: str):	
 	song = os.path.isfile('song.mp3')
 	try:
 		if song:
 			os.remove('song.mp3')
 	except PermissionError:
-		await ctx.send("Current music is still playing. Wait for it to end or use the -stop command")
-		return
+		return await ctx.send("Current music is still playing. Wait for it to end or use the -stop command")
 	
 	vc = discord.utils.get(ctx.guild.voice_channels)
 	await vc.connect()
@@ -156,6 +179,41 @@ async def resume(ctx):
 async def stop(ctx):
 	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 	v.stop()
+
+# bot command (-weather [City])
+# displays the weather for [City]
+@bot.command(name = 'weather')
+async def weather(ctx, *, city: str):
+	# get response from openweather website (requests) and read it (json)
+	url = weather_url + "appid=" + WEATHER + "&q=" + city
+	response = requests.get(url)
+	x = response.json()
+	channel = ctx.message.channel
+
+	# check if city exist
+	if x["cod"] != "404":
+		async with channel.typing():
+			# get weather info at [city]
+			y = x["main"]
+			current_temperature = y["temp"]
+			current_temperature_celsiuis = str(round(current_temperature - 273.15))
+			current_pressure = y["pressure"]
+			current_humidity = y["humidity"]
+			z = x["weather"]
+			weather_description = z[0]["description"]
+
+			# display the info inside a discord.Embed
+			embed = discord.Embed(title=f"Weather in {city}", color=ctx.guild.me.top_role.color, timestamp=ctx.message.created_at,)
+			embed.add_field(name="Descripition", value=f"**{weather_description}**", inline=False)
+			embed.add_field(name="Temperature(C)", value=f"**{current_temperature_celsiuis}°C**", inline=False)
+			embed.add_field(name="Humidity(%)", value=f"**{current_humidity}%**", inline=False)
+			embed.add_field(name="Atmospheric Pressure(hPa)", value=f"**{current_pressure}hPa**", inline=False)
+			embed.set_thumbnail(url="https://i.ibb.co/CMrsxdX/weather.png")
+			embed.set_footer(text=f"Requested by {ctx.author.name}")
+	else:
+		return await channel.send("City does not exist/not found.")
+	
+	await channel.send(embed=embed)
 
 # handles exception that occurs and log the error
 @bot.event
