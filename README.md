@@ -35,7 +35,7 @@ Command Name | Description
 -------------|------------
 coinflip | Flips a coin
 rolldice | Rolls a dice
-choose *n* *m* | Chooses a number between n and m (n and m are user's argument values)
+choose *n* *m* | Chooses a number between n and m
 play *YTlink* | Play music using, so far, Youtube links
 exit | Exit the bot from voice channel
 pause | Pauses the music the bot is currently playing
