@@ -44,7 +44,7 @@ stop | Stops the music the bot is playing
 weather *city* | Display weather information for a city
 
 ### TODOs
-Chii is still in development therefore I will be adding new features/updates at an upcoming time.
+Chii is still in development and will be adding new features/updates at an upcoming time.
 Below are ideas that I would like to implement:
 - [x] React to certain string messages
 - [ ] Add game command where users could interact with it
