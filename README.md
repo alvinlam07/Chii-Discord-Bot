@@ -1,6 +1,5 @@
 # Chii Discord Bot
 
-## About
 Chii is a personal Discord bot that is in continuous development.
 
 It uses [Discord](https://github.com/discord/discord-api-docs), [Youtube](https://github.com/ytdl-org/youtube-dl), & [OpenWeather](https://openweathermap.org/current) APIs.
