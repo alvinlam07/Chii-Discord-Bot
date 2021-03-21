@@ -1,150 +1,199 @@
 # bot.py
-import os
-import discord
-import random
-import youtube_dl
-import requests, json
-from dotenv import load_dotenv
+import os, platform, sys, random, discord, youtube_dl, requests, json
+
 from discord.ext import commands
+from discord.ext.commands import Bot
 
-# loads the .env file
-load_dotenv()
+if not os.path.isfile("config.py"):
+	sys.exit("'config.py' could not be found. Add the file and try again.")
+else:
+	import config
 
-# grab the API token from the .env file
-TOKEN = os.getenv('DISCORD_TOKEN')
-WEATHER = os.getenv('WEATHER_TOKEN')
-
-# url(s)
+# base url(s)
 weather_url = "http://api.openweathermap.org/data/2.5/weather?"
 
 # enable intents and create bot object and defined the prefix for bot commands
 intents = discord.Intents.all()
-bot     = commands.Bot(command_prefix = '-', intents = intents)
+bot     = Bot(command_prefix=config.BOT_PREFIX, intents=intents)
 
 # initialize the random number generator
 random.seed
 
+# code is executed when the bot is ready
+# summary: sends confirmation and list all of the servers it is initally 
+# 		   in since run via command-line
 @bot.event
 async def on_ready():
-	# confirm that the bot is up and running
-	print(f'{bot.user.name} has connected to Discord!\n')
+	print(f"{bot.user.name} is up and running!\n")
 
-	# list all servers it is in
-	print('Connected Servers: ')
-
+	print("Connected Servers: ")
 	guilds = bot.guilds
-
 	for guild in guilds:
-		print(' - ' + guild.name)
+		print(" - " + guild.name)
 
-
+# code is executed when a member joins a guild
+# summary: send an embedded message to the new member through direct message
 @bot.event
 async def on_member_join(member):
-	guilds         = bot.guilds	# list of guilds that bot is in
-
-	# used to store name and icon url of specfic guild
-	guild_name 	   = ""
-	guild_icon_url = ""
-
-	# get the name and icon url of guild the member just joined
-	for guild in guilds:
+	guild_list     = bot.guilds	
+	# store the guild's name and icon url the member just joined
+	for guild in guild_list:
 		if member.guild.id == guild.id:
 			guild_name = guild
 			guild_icon_url = guild.icon_url
 
 	welcome = discord.Embed(
-		colour = discord.Colour.from_rgb(255,192,203),
-		title = f'Welcome to the {guild_name} server!',
-		description = f'Thank you for joining this server {member.mention}. I hope you enjoy your stay!',
+		title=f"Welcome to the {guild_name} server!",
+		description=f"Thank you for joining this server {member.mention}. I hope you enjoy your stay!",
+		colour=discord.Colour.from_rgb(255,192,203)
 	)
 	welcome.set_thumbnail(url=guild_icon_url)
-	
+
 	await member.send(embed=welcome)
 
+# code is executed when a message is sent by a member (with/without prefix)
+# summary: respond and react to messages from members
 @bot.event
 async def on_message(message):
-	# do not include/respond to bot messages 
-	if message.author == bot.user:
+	# ignore its own and other bot(s)'s message
+	if message.author == bot.user or message.author.bot:
 		return
+	else:
+		# -----------responding back to messages-----------
 
-	# -------responding back to string messages-------
+		# wishes someone a happy birthday message
+		if "happy birthday" in message.content.lower():
+			embed = discord.Embed(
+				description="Happy Birthday! 🎈🎉", 
+				color=discord.Colour.from_rgb(255,192,203)
+			)
+			await message.channel.send(embed=embed)
+			
+		# easter egg: Rick Astley - Never Gonna Give You Up chorus
+		if "never gonna give you up" in message.content.lower():
+			embed = discord.Embed(
+				description="Never gonna let you down! 🎶", 
+				color=discord.Colour.from_rgb(255,192,203)
+			)
+			await message.channel.send(embed=embed)
+		elif "never gonna run around and desert you" in message.content.lower():
+			embed = discord.Embed(
+				description="Never gonna make you cry! 🎶", 
+				color=discord.Colour.from_rgb(255,192,203)
+			)
+			await message.channel.send(embed=embed)
+		elif "never gonna say goodbye" in message.content.lower():
+			embed = discord.Embed(
+				description="Never gonna tell a lie and hurt you! 🎶", 
+				color=discord.Colour.from_rgb(255,192,203)
+			)
+			await message.channel.send(embed=embed)
 
-	# wishes someone a happy birthday message
-	if "happy birthday" in message.content.lower():
-		await message.channel.send('Happy Birthday! 🎈🎉')
-		
-	# easter egg: Rick Astley - Never Gonna Give You Up chorus
-	if "never gonna give you up" in message.content.lower():
-		await message.channel.send('Never gonna let you down!')
-	elif "never gonna run around and desert you" in message.content.lower():
-		await message.channel.send('Never gonna make you cry!')
-	elif "never gonna say goodbye" in message.content.lower():
-		await message.channel.send('Never gonna tell a lie and hurt you!')
+		#-----------reacting to string messages------------
 
-	#-----------reacting to string messages-----------
+		if ("hi" in message.content.lower()) or ("hey" in message.content.lower()) or ("hello" in message.content.lower()):
+			await message.add_reaction('👋')
+		elif ("nice" in message.content.lower()) or ("ok" in message.content.lower()) :
+			await message.add_reaction('👌')
+		elif "please" in message.content.lower():
+			await message.add_reaction('🥺')
+		elif "love" in message.content.lower():
+			await message.add_reaction('💖')
 
-	if ("hi" in message.content.lower()) or ("hey" in message.content.lower()) or ("hello" in message.content.lower()):
-		await message.add_reaction('👋')
+		await bot.process_commands(message)
 
-	elif ("nice" in message.content.lower()) or ("ok" in message.content.lower()) :
-		await message.add_reaction('👌')
-	
-	elif "please" in message.content.lower():
-		await message.add_reaction('🥺')
+# bot command (-guild)
+# summary: display the information of the guild
+@bot.command(name="guild")
+async def guild(ctx):
+	name  		 = ctx.guild.name
+	description  = ctx.guild.description
+	owner 		 = ctx.guild.owner
+	id    		 = ctx.guild.id
+	region 		 = ctx.guild.region
+	member_count = ctx.guild.member_count
+	icon_url     = ctx.guild.icon_url
+	embed = discord.Embed(
+		title=f"{name} Server Information",
+		description=description,
+		color=discord.Colour.from_rgb(255,192,203)
+	)
+	embed.add_field(name="Server Owner:", value=owner,inline=False)
+	embed.add_field(name="Server ID:", value=id,inline=False)
+	embed.add_field(name="Region:", value=region,inline=False)
+	embed.add_field(name="Member Count:", value=member_count,inline=False)
+	embed.set_thumbnail(url=icon_url)
+	await ctx.send(embed=embed)
 
-	elif "love" in message.content.lower():
-		await message.add_reaction('💖')
-
-	# need this to trigger bot commands
-	await bot.process_commands(message)
+# bot command (-server)
+# summary: display the information of the guild (same as -guild command)
+@bot.command(name="server")
+async def server(ctx):
+	await guild.invoke(ctx)
 
 # bot command (-coinflip)
-# flips a coin and respond with the result
-@bot.command(name = 'coinflip')
+# summary: flips a coin
+
+@bot.command(name="coinflip")
 async def coin_flip(ctx):
 	coinside = random.randint(0, 1)
-
-	# flipped head
+	# head
 	if coinside == 0:
-		await ctx.channel.send("It's Head!")
-	# flipped tail
+		embed = discord.Embed(
+			description="It's Head! 🪙", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		await ctx.channel.send(embed=embed)
+	# tail
 	elif coinside == 1:
-		await ctx.channel.send("It's Tail!")
+		embed = discord.Embed(
+			description="It's Tail! 🪙", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		await ctx.channel.send(embed=embed)
 
 # bot command (-rolldice)
-# rolls a dice abd respond with the result
-@bot.command(name = 'rolldice')
+# summary: rolls a dice
+@bot.command(name="rolldice")
 async def dice_roll(ctx):
 	dice = random.randint(1, 6)
-
-	# rolled a number 1-6
 	if dice in range(1, 7):
-		await ctx.channel.send("It's a " + str(dice) + "!")
+		embed = discord.Embed(
+			description="It's a " + str(dice) + "! 🎲", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		await ctx.channel.send(embed=embed)
 
-# bot command (-choose n m)
-# chooses a number between n and m
+# bot command (-choose [n] [m])
+# summary: chooses a number between n and m
 @bot.command(name = 'choose')
 async def choose(ctx, num1: int, num2: int):
 	number = random.randint(num1, num2)
-
-	# chose a number between num1 and num2
 	if number in range(num1, num2+1):
-		await ctx.channel.send("It's a " + str(number) + "!")
+		embed = discord.Embed(
+			description="It's a " + str(number) + "! 🔢", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		await ctx.channel.send(embed=embed)
 
-# bot command (-play [YTlink])
-# play music from Youtube
-@bot.command(name = 'play')
+# bot command (-play [YouTube link])
+# summary: play audio from Youtube
+@bot.command(name="play")
 async def play(ctx, url: str):	
 	song = os.path.isfile('song.mp3')
 	try:
 		if song:
 			os.remove('song.mp3')
 	except PermissionError:
-		return await ctx.send("Current music is still playing. Wait for it to end or use the -stop command")
-	
-	vc = discord.utils.get(ctx.guild.voice_channels)
-	await vc.connect()
-	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+		embed = discord.Embed(
+			description="Current music is still playing. Wait for it to end or use the -stop command ⛔", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		return await ctx.send(embed=embed)
+
+	voice_channel = discord.utils.get(ctx.guild.voice_channels)
+	await voice_channel.connect()
+	voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
 
 	ydl_opts = {
 		'format': 'bestaudio/best',
@@ -154,81 +203,123 @@ async def play(ctx, url: str):
 			'preferredquality': '192',
 		}],
 	}
-
 	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+		info_dict   = ydl.extract_info(url, download=False)
+		video_title = info_dict.get("title", None)
+		embed = discord.Embed(
+			title="Currently Playing:",
+			description=f"[{video_title}]({url})", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		embed.set_footer(text=f"Requested by {ctx.author.name}")
+		await ctx.send(embed=embed)
 		ydl.download([url])
+
 	for file in os.listdir("./"):
 		if file.endswith(".mp3"):
 			os.rename(file, "song.mp3")
-	v.play(discord.FFmpegPCMAudio("song.mp3"))
+			
+	voice.play(discord.FFmpegPCMAudio("song.mp3"))
 
 # bot command (-exit)
-# exit the bot from VC
-@bot.command(name = 'exit')
+# summary: exit the bot from voice channel
+@bot.command(name="exit")
 async def exit(ctx):
-	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-	if v.is_connected():
-		await v.disconnect()
-	else:
-		await ctx.send("I'm not connected to a voice channel!")
+	voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+	try:
+		if voice.is_connected():
+			await voice.disconnect()
+	except AttributeError:
+		embed = discord.Embed(
+			description="I'm not connected to a voice channel! ⛔", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		await ctx.send(embed=embed)
 
 # bot command (-pause)
-# pauses the music the bot is currently playing
-@bot.command(name = 'pause')
+# summary: pauses the currently playing audio 
+@bot.command(name="pause")
 async def pause(ctx):
-	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-	if v.is_playing(): v.pause()
-	else: await ctx.send("No music is being played at the moment!")
+	voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+	if voice.is_playing(): 
+		voice.pause()
+	else:
+		embed = discord.Embed(
+			description="No music is being played at the moment! 🔇", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		await ctx.send(embed=embed)
 
 # bot command (-resume)
-# resumes the music if it is paused
-@bot.command(name = 'resume')
+# summary: resumes the a paused audio
+@bot.command(name="resume")
 async def resume(ctx):
-	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-	if v.is_paused(): v.resume()
-	else: await ctx.send("The music is not paused!")
+	voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+	if voice.is_paused(): 
+		voice.resume()
+	else:
+		embed = discord.Embed(
+			description="The music is not paused! 🔇", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		await ctx.send(embed=embed)
 
 # bot command (-stop)
-# stops the music the bot is playing
-@bot.command(name = 'stop')
+# summary: stops playing the audio
+@bot.command(name="stop")
 async def stop(ctx):
-	v = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-	v.stop()
+	try:
+		voice = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+		voice.stop()
+	except AttributeError:
+		embed = discord.Embed(
+			description="I'm not connected to a voice channel! ⛔", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		await ctx.send(embed=embed)
+
 
 # bot command (-weather [City])
-# displays the weather for [City]
-@bot.command(name = 'weather')
+# summary: displays the weather information for a city name
+@bot.command(name="weather")
 async def weather(ctx, *, city: str):
 	# get response from openweather website (requests) and read it (json)
-	url = weather_url + "appid=" + WEATHER + "&q=" + city
-	response = requests.get(url)
-	x = response.json()
-	channel = ctx.message.channel
+	full_url = weather_url + "q=" + city + "&appid=" + config.WEATHER_TOKEN 
+	request  = requests.get(full_url)
+	response = request.json()
+	channel  = ctx.message.channel
 
 	# check if city exist
-	if x["cod"] != "404":
+	if response["cod"] != "404":
 		async with channel.typing():
-			# get weather info at [city]
-			y = x["main"]
+			# get weather info for city
+			y = response["main"]
 			current_temperature = y["temp"]
 			current_temperature_celsiuis = str(round(current_temperature - 273.15))
+			current_temperature_fahrenheit = str(round((current_temperature - 273.15) * (9/5) + 32))
 			current_pressure = y["pressure"]
 			current_humidity = y["humidity"]
-			z = x["weather"]
+			z = response["weather"]
 			weather_description = z[0]["description"]
 
-			# display the info inside a discord.Embed
-			embed = discord.Embed(title=f"Weather in {city}", color=discord.Colour.teal(), timestamp=ctx.message.created_at,)
-			embed.add_field(name="Descripition", value=f"**{weather_description}**", inline=False)
-			embed.add_field(name="Temperature(C)", value=f"**{current_temperature_celsiuis}°C**", inline=False)
+			embed = discord.Embed(
+				title=f"Weather in {city}", 
+				color=discord.Colour.from_rgb(255,192,203)
+			)
+			embed.add_field(name="Description", value=f"**{weather_description}**", inline=False)
+			embed.add_field(name="Temperature(F)/(C)", value=f"**{current_temperature_fahrenheit}°F/{current_temperature_celsiuis}°C**", inline=False)
 			embed.add_field(name="Humidity(%)", value=f"**{current_humidity}%**", inline=False)
 			embed.add_field(name="Atmospheric Pressure(hPa)", value=f"**{current_pressure}hPa**", inline=False)
 			embed.set_thumbnail(url="https://i.ibb.co/CMrsxdX/weather.png")
 			embed.set_footer(text=f"Requested by {ctx.author.name}")
-	else:
-		return await channel.send("City does not exist/not found.")
-	
-	await channel.send(embed=embed)
 
-# run the bot with specified token
-bot.run(TOKEN)
+		await channel.send(embed=embed)
+	else:
+		embed = discord.Embed(
+			description="City does not exist/not found. Try again. ⛔", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		await channel.send(embed=embed)
+
+# run the bot with token
+bot.run(config.TOKEN)
