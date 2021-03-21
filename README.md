@@ -50,3 +50,6 @@ Below are ideas that I would like to implement:
 - [ ] Add game command where users could interact with it
 - [ ] Add other APIs to it (Spotify, Weather, image-based, etc.)
 - [ ] Host it in the cloud (using [repl.it](https://repl.it) or some other alternative) or locally (using raspberry pi)
+- [ ] Organize the project more (seperate certain functions into different file)
+- [ ] Add server info command to show info of current server
+And more will be added.
