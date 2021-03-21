@@ -14,7 +14,7 @@ Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?clien
 * Display guild/server information
 * Simple probability/chance
 * Play audio (Youtube)
-* Display the weather
+* Display the weather for a city
 
 ## Installation
 You can invite Chii to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
