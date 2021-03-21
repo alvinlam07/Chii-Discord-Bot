@@ -48,7 +48,10 @@ Chii is still in development and will be adding new features/updates at an upcom
 Below are ideas that I would like to implement:
 - [x] React to certain string messages
 - [ ] Add game command where users could interact with it
-- [ ] Add other APIs to it (Spotify, Weather, image-based, etc.)
+- [ ] Add other APIs to it
+  - [ ] Spotify
+  - [x] Weather
+  - [ ] Image-based
 - [ ] Host it in the cloud (using [repl.it](https://repl.it) or some other alternative) or locally (using raspberry pi)
 - [ ] Organize the project more (seperate certain functions into different file)
 - [ ] Add server info command to show info of current server
