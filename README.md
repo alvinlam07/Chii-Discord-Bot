@@ -39,25 +39,25 @@ pip install -U python-dotenv
 | Server  | Display the guild/server information | -server |
 
 ### Probability/Chance
-Command Name | Description | Usage
--------------|--------------------
-Coinflip | Flips a coin | -coinflip
-Rolldice | Rolls a dice | -rolldice
-Choose | Chooses a number between n and m | -choose [n] [m]
+| Command  | Description                      | Usage           |
+|----------|----------------------------------|-----------------|
+| Coinflip | Flips a coin                     | -coinflip       |
+| Rolldice | Rolls a dice                     | -rolldice       |
+| Choose   | Chooses a number between n and m | -choose [n] [m] |
 
 ### Music
-Command Name | Description | Usage
--------------|--------------------
-Play | Play music using, so far, Youtube links | -play [Youtube Link]
-Exit | Exit the bot from voice channel | -exit
-Pause | Pauses the music the bot is currently playing | -pause
-Resume | Resumes the music from bot if it is paused | -resume
-Stop | Stops the music the bot is playing | -stop
+| Command | Description                                   | Usage                |
+|---------|-----------------------------------------------|----------------------|
+| Play    | Play music using, so far, Youtube links       | -play [Youtube Link] |
+| Exit    | Exit the bot from voice channel               | -exit                |
+| Pause   | Pauses the music the bot is currently playing | -pause               |
+| Resume  | Resumes the music from bot if it is paused    | -resume              |
+| Stop    | Stops the music the bot is playing            | -stop                |
 
 ### Weather
-Command Name | Description | Usage
--------------|--------------------
-Weather | Display weather information for a city | -weather [City]
+| Command | Description                            | Usage           |
+|---------|----------------------------------------|-----------------|
+| Weather | Display weather information for a city | -weather [City] |
 
 ## TODOs
 Chii is still in development and will be adding new features/updates at an upcoming time.
