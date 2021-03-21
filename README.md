@@ -4,7 +4,7 @@ Chii is a personal Discord bot that is in continuous development. It uses [Disco
 
 Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
 
-## Features
+## 🔧 Features
 * Welcome new members to the server via direct message
 * Respond back to certain messages
 * React to certain messages
@@ -13,7 +13,7 @@ Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?clien
 * Play audio (Youtube)
 * Display the weather for a city
 
-## Installation
+## ⚙ Installation
 You can invite Chii to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
 Alternatively, you can clone this repo and host it yourself:
 ```
@@ -28,26 +28,26 @@ pip install -U youtube_dl
 pip install -U python-dotenv
 ```
 
-## Commands List:
+## 🤖 Commands List:
 ```
 Prefix = "-"
 [ ]    = required 
 ```
 
-### Guild
+### 🧑‍🤝‍🧑 Guild
 | Command | Description                          | Usage   |
 |---------|--------------------------------------|---------|
 | Guild   | Display the guild/server information | -guild  |
 | Server  | Display the guild/server information | -server |
 
-### Probability/Chance
+### 🪙 Probability/Chance 
 | Command  | Description                      | Usage           |
 |----------|----------------------------------|-----------------|
 | Coinflip | Flips a coin                     | -coinflip       |
 | Rolldice | Rolls a dice                     | -rolldice       |
 | Choose   | Chooses a number between n and m | -choose [n] [m] |
 
-### Music
+### 🎵 Music
 | Command | Description                                   | Usage                |
 |---------|-----------------------------------------------|----------------------|
 | Play    | Play music using, so far, Youtube links       | -play [Youtube Link] |
@@ -56,12 +56,12 @@ Prefix = "-"
 | Resume  | Resumes the music from bot if it is paused    | -resume              |
 | Stop    | Stops the music the bot is playing            | -stop                |
 
-### Weather
+### ☀ Weather
 | Command | Description                            | Usage           |
 |---------|----------------------------------------|-----------------|
 | Weather | Display weather information for a city | -weather [City] |
 
-## TODOs
+## ✔ TODOs
 Chii is still in development and will be adding new features/updates at an upcoming time.
 Below are ideas that I would like to implement:
 - [x] React to certain string messages
