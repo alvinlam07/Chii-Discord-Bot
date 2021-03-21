@@ -32,6 +32,9 @@ pip install -U python-dotenv
 ```
 
 ## Commands List:
+Prefix = "-"
+[]     = required 
+
 ### Guild
 | Command | Description                          | Usage   |
 |---------|--------------------------------------|---------|
