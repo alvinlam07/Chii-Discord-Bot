@@ -29,8 +29,7 @@ pip install -U python-dotenv
 ```
 
 ## 🤖 Commands List:
-The prefix for these commands is `-`.
-Arguments encased by `[]` are required.
+The prefix for these commands is `-`. Arguments encased with `[]` are required.
 
 
 ### 🧑‍🤝‍🧑 Guild
