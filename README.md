@@ -11,8 +11,9 @@ Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?clien
 * Welcome new members to the server via direct message
 * Respond back to certain messages
 * React to certain messages
-* Probability
-* Play audio (YT)
+* Display guild/server information
+* Simple probability/chance
+* Play audio (Youtube)
 * Display the weather
 
 ## Installation
@@ -35,13 +36,15 @@ Command Name | Description
 -------------|------------
 coinflip | Flips a coin
 rolldice | Rolls a dice
-choose *n* *m* | Chooses a number between n and m
-play *YTlink* | Play music using, so far, Youtube links
+guild | Display the guild/server information
+server | Display the guild/server information
+choose [n] [m] | Chooses a number between n and m
+play [Youtube Link] | Play music using, so far, Youtube links
 exit | Exit the bot from voice channel
 pause | Pauses the music the bot is currently playing
 resume | Resumes the music from bot if it is paused
 stop | Stops the music the bot is playing
-weather *city* | Display weather information for a city
+weather [City] | Display weather information for a city
 
 ## TODOs
 Chii is still in development and will be adding new features/updates at an upcoming time.
@@ -54,6 +57,6 @@ Below are ideas that I would like to implement:
   - [ ] Image-based
 - [ ] Host it in the cloud (using [repl.it](https://repl.it) or some other alternative) or locally (using raspberry pi)
 - [ ] Organize the project more (seperate certain functions into different file)
-- [ ] Add server info command to show info of current server
+- [x] Add server info command to show info of current server
 
 And more will be added.
