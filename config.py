@@ -1,0 +1,5 @@
+# config.py
+# note: you can have multiple prefixes, ex: ("-","!","?")
+BOT_PREFIX = "INSERT_YOUR_PREFIXES_HERE"
+TOKEN = "INSERT_YOUR_DISCORD_TOKEN_HERE"
+WEATHER_TOKEN = "INSERT_YOUR_OPENWEATHER_TOKEN_HERE"
