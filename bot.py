@@ -17,24 +17,49 @@ WEATHER = os.getenv('WEATHER_TOKEN')
 # url(s)
 weather_url = "http://api.openweathermap.org/data/2.5/weather?"
 
-# create bot object and defined the prefix for bot commands
-bot = commands.Bot(command_prefix = '-')
+# enable intents and create bot object and defined the prefix for bot commands
+intents = discord.Intents.all()
+bot     = commands.Bot(command_prefix = '-', intents = intents)
 
 # initialize the random number generator
 random.seed
 
 @bot.event
 async def on_ready():
-	print(f'{bot.user.name} has connected to Discord!')
+	# confirm that the bot is up and running
+	print(f'{bot.user.name} has connected to Discord!\n')
 
-# need to fix this
+	# list all servers it is in
+	print('Connected Servers: ')
+
+	guilds = bot.guilds
+
+	for guild in guilds:
+		print(' - ' + guild.name)
+
+
 @bot.event
 async def on_member_join(member):
-	guild = discord.utils.get(bot.guilds)
-	await member.create_dm()
-	await member.dm_channel.send(
-		f'Hi {member.name}, welcome to the {guild} server!'
+	guilds         = bot.guilds	# list of guilds that bot is in
+
+	# used to store name and icon url of specfic guild
+	guild_name 	   = ""
+	guild_icon_url = ""
+
+	# get the name and icon url of guild the member just joined
+	for guild in guilds:
+		if member.guild.id == guild.id:
+			guild_name = guild
+			guild_icon_url = guild.icon_url
+
+	welcome = discord.Embed(
+		colour = discord.Colour.from_rgb(255,192,203),
+		title = f'Welcome to the {guild_name} server!',
+		description = f'Thank you for joining this server {member.mention}. I hope you enjoy your stay!',
 	)
+	welcome.set_thumbnail(url=guild_icon_url)
+	
+	await member.send(embed=welcome)
 
 @bot.event
 async def on_message(message):
@@ -58,11 +83,10 @@ async def on_message(message):
 
 	#-----------reacting to string messages-----------
 
-	# need to fix
-	if "hi" or "hey" or "hello" in message.content.lower():
+	if ("hi" in message.content.lower()) or ("hey" in message.content.lower()) or ("hello" in message.content.lower()):
 		await message.add_reaction('👋')
 
-	elif "nice" or "ok" in message.content.lower():
+	elif ("nice" in message.content.lower()) or ("ok" in message.content.lower()) :
 		await message.add_reaction('👌')
 	
 	elif "please" in message.content.lower():
@@ -86,9 +110,6 @@ async def coin_flip(ctx):
 	# flipped tail
 	elif coinside == 1:
 		await ctx.channel.send("It's Tail!")
-	# exception handler
-	else:
-		raise discord.DiscordException
 
 # bot command (-rolldice)
 # rolls a dice abd respond with the result
@@ -99,9 +120,6 @@ async def dice_roll(ctx):
 	# rolled a number 1-6
 	if dice in range(1, 7):
 		await ctx.channel.send("It's a " + str(dice) + "!")
-	# exception handler
-	else:
-		raise discord.DiscordException
 
 # bot command (-choose n m)
 # chooses a number between n and m
@@ -112,9 +130,6 @@ async def choose(ctx, num1: int, num2: int):
 	# chose a number between num1 and num2
 	if number in range(num1, num2+1):
 		await ctx.channel.send("It's a " + str(number) + "!")
-	# exception handler
-	else:
-		raise discord.DiscordException
 
 # bot command (-play [YTlink])
 # play music from Youtube
@@ -203,7 +218,7 @@ async def weather(ctx, *, city: str):
 			weather_description = z[0]["description"]
 
 			# display the info inside a discord.Embed
-			embed = discord.Embed(title=f"Weather in {city}", color=ctx.guild.me.top_role.color, timestamp=ctx.message.created_at,)
+			embed = discord.Embed(title=f"Weather in {city}", color=discord.Colour.teal(), timestamp=ctx.message.created_at,)
 			embed.add_field(name="Descripition", value=f"**{weather_description}**", inline=False)
 			embed.add_field(name="Temperature(C)", value=f"**{current_temperature_celsiuis}°C**", inline=False)
 			embed.add_field(name="Humidity(%)", value=f"**{current_humidity}%**", inline=False)
@@ -214,15 +229,6 @@ async def weather(ctx, *, city: str):
 		return await channel.send("City does not exist/not found.")
 	
 	await channel.send(embed=embed)
-
-# handles exception that occurs and log the error
-@bot.event
-async def on_error(event, *args, **kwargs):
-	with open('err.log', 'a') as f:
-		if event == 'on_message':
-			f.write(f'Unhandled message: {args[0]}\n')
-		else:
-			raise
 
 # run the bot with specified token
 bot.run(TOKEN)
