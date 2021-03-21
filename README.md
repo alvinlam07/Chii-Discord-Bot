@@ -48,7 +48,7 @@ Chii is still in development and will be adding new features/updates at an upcom
 Below are ideas that I would like to implement:
 - [x] React to certain string messages
 - [ ] Add game command where users could interact with it
-- [ ] Add other APIs to it
+- [ ] Add other APIs to it:
   - [ ] Spotify
   - [x] Weather
   - [ ] Image-based
