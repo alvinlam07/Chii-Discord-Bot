@@ -33,10 +33,10 @@ pip install -U python-dotenv
 
 ## Commands List:
 ### Guild
-Command Name | Description | Usage
--------------|--------------------
-Guild | Display the guild/server information | -guild
-Server | Display the guild/server information | -server
+| Command | Description                          | Usage   |
+|---------|--------------------------------------|---------|
+| Guild   | Display the guild/server information | -guild  |
+| Server  | Display the guild/server information | -server |
 
 ### Probability/Chance
 Command Name | Description | Usage
