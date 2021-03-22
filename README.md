@@ -13,19 +13,28 @@ Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?clien
 * Play audio (Youtube)
 * Display the weather for a city
 
-## ⚙ Installation
+## ⚙ Setup/Installation
 You can invite Chii to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
 Alternatively, you can clone this repo and host it yourself:
 ```
 git clone https://github.com/alam1517/Chii-Discord-Bot.git
 ```
-Make sure that you install the discord.py, youtube_dl, and dotenv if you do not have it:
+Before starting, making sure that you have latest version of python3 and python3-pip.
+To check, do the following:
+```
+python3 --version
+pip --version
+```
+If you do not have either or both installed, do the following:
+```
+sudo apt-get install python3
+sudo apt-get install python3-pip
+```
+Afterwards, you will need to install the other libraries/APIs if you do not have it:
 ```
 pip install -U discord.py
 
 pip install -U youtube_dl
-
-pip install -U python-dotenv
 ```
 
 ## 🤖 Commands List:
