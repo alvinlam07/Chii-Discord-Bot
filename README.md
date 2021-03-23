@@ -11,15 +11,15 @@
 <p align="center"> Table of Content </p>
 
 <p align="center">
-  <a href="-about">About</a> 
+  <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-about">About</a> 
   | 
-  <a href="-features">Features</a>
+  <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-features">Features</a>
   | 
-  <a href="-setup/Installation">Setup/Installation</a>
+  <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-setupinstallation">Setup/Installation</a>
   | 
-  <a href="-command-list">Command List</a>
+  <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-command-list">Command List</a>
   |
-  <a href="-todos">TODOs</a>
+  <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-todos">TODOs</a>
 </p>
 
 ## 📃 About
