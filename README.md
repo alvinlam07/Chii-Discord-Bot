@@ -126,7 +126,8 @@ Below are ideas that I would like to implement:
   - [x] Weather
   - [ ] Image-based
   - [x] Reddit
-  - [ ] Dog & Cat
+  - [x] Dog & Cat
+  - [x] Anime
 - [ ] Host it in the cloud (using [repl.it](https://repl.it) or some other alternative) or locally (using raspberry pi)
 - [ ] Organize the project more (seperate certain functions into different file)
 - [x] Add server info command to show info of current server
