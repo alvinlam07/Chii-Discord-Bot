@@ -1,16 +1,18 @@
 # bot.py
-import os, platform, sys, random, discord, youtube_dl, requests, json
-
+import os, platform, sys, random, discord, youtube_dl, requests, json, asyncpraw, asyncprawcore
 from discord.ext import commands
 from discord.ext.commands import Bot
-
 if not os.path.isfile("config.py"):
 	sys.exit("'config.py' could not be found. Add the file and try again.")
 else:
 	import config
 
-# base url(s)
-weather_url = "http://api.openweathermap.org/data/2.5/weather?"
+# reddit authentication
+r_auth = asyncpraw.Reddit(
+	client_id=config.REDDIT_CLIENT_ID, 
+	client_secret=config.REDDIT_SECRET, 
+	user_agent=config.REDDIT_NAME
+)
 
 # enable intents and create bot object and defined the prefix for bot commands
 intents = discord.Intents.all()
@@ -106,6 +108,7 @@ async def on_message(message):
 # summary: display the information of the guild
 @bot.command(name="guild")
 async def guild(ctx):
+	# get guild/server info
 	name  		 = ctx.guild.name
 	description  = ctx.guild.description
 	owner 		 = ctx.guild.owner
@@ -113,6 +116,7 @@ async def guild(ctx):
 	region 		 = ctx.guild.region
 	member_count = ctx.guild.member_count
 	icon_url     = ctx.guild.icon_url
+
 	embed = discord.Embed(
 		title=f"{name} Server Information",
 		description=description,
@@ -123,6 +127,7 @@ async def guild(ctx):
 	embed.add_field(name="Region:", value=region,inline=False)
 	embed.add_field(name="Member Count:", value=member_count,inline=False)
 	embed.set_thumbnail(url=icon_url)
+
 	await ctx.send(embed=embed)
 
 # bot command (-server)
@@ -168,13 +173,19 @@ async def dice_roll(ctx):
 # summary: chooses a number between n and m
 @bot.command(name = 'choose')
 async def choose(ctx, num1: int, num2: int):
-	number = random.randint(num1, num2)
-	if number in range(num1, num2+1):
+	try:
+		number = random.randint(num1, num2)
+		if number in range(num1, num2+1):
+			embed = discord.Embed(
+				description="It's a " + str(number) + "! 🔢", 
+				color=discord.Colour.from_rgb(255,192,203)
+			)
+	except ValueError:
 		embed = discord.Embed(
-			description="It's a " + str(number) + "! 🔢", 
+			description="1st number should be less than or equal to the 2nd number (n >= m)! Try again. ⛔", 
 			color=discord.Colour.from_rgb(255,192,203)
 		)
-		await ctx.channel.send(embed=embed)
+	await ctx.channel.send(embed=embed)
 
 # bot command (-play [YouTube link])
 # summary: play audio from Youtube
@@ -203,6 +214,7 @@ async def play(ctx, url: str):
 			'preferredquality': '192',
 		}],
 	}
+
 	with youtube_dl.YoutubeDL(ydl_opts) as ydl:
 		info_dict   = ydl.extract_info(url, download=False)
 		video_title = info_dict.get("title", None)
@@ -283,7 +295,8 @@ async def stop(ctx):
 # summary: displays the weather information for a city name
 @bot.command(name="weather")
 async def weather(ctx, *, city: str):
-	# get response from openweather website (requests) and read it (json)
+	weather_url = "http://api.openweathermap.org/data/2.5/weather?" # base url
+	# get response from openweather website
 	full_url = weather_url + "q=" + city + "&appid=" + config.WEATHER_TOKEN 
 	request  = requests.get(full_url)
 	response = request.json()
@@ -293,14 +306,14 @@ async def weather(ctx, *, city: str):
 	if response["cod"] != "404":
 		async with channel.typing():
 			# get weather info for city
-			y = response["main"]
-			current_temperature = y["temp"]
-			current_temperature_celsiuis = str(round(current_temperature - 273.15))
+			city_weather                   = response["main"]
+			current_temperature            = city_weather["temp"]
+			current_temperature_celsiuis   = str(round(current_temperature - 273.15))
 			current_temperature_fahrenheit = str(round((current_temperature - 273.15) * (9/5) + 32))
-			current_pressure = y["pressure"]
-			current_humidity = y["humidity"]
-			z = response["weather"]
-			weather_description = z[0]["description"]
+			current_pressure               = city_weather["pressure"]
+			current_humidity               = city_weather["humidity"]
+			response_weather               = response["weather"]
+			weather_description            = response_weather[0]["description"]
 
 			embed = discord.Embed(
 				title=f"Weather in {city}", 
@@ -321,5 +334,143 @@ async def weather(ctx, *, city: str):
 		)
 		await channel.send(embed=embed)
 
-# run the bot with token
+# bot command (-reddit <subreddit>)
+# summary: displays the 10 hottest posts from all subreddit or from a specfic subreddit
+@bot.command(name="reddit")
+async def reddit(ctx, *, subreddit: str=None):
+	async with ctx.typing():
+		# check for optional argument
+		if subreddit is None:
+			sr_name = "all"
+		else:
+			sr_name = subreddit
+		
+		post_list = []
+		sr = await r_auth.subreddit(sr_name) # get post info from subreddit
+		try:
+			async for post in sr.hot(limit=10):
+			# append post's title and url
+				if (len(post.title) > 256):
+					short_title = post.title[0:256]
+					post_list.append([short_title, post.shortlink])
+				else:
+					post_list.append([post.title, post.shortlink])
+			# fetch subreddit icon
+			if subreddit is not None:
+				await sr.load()
+				sr_icon = sr.icon_img
+		except Exception:
+			embed = discord.Embed(
+				description="Could not find the subreddit. Try again. ⛔", 
+				color=discord.Colour.from_rgb(255,192,203)
+			)
+			return await ctx.send(embed=embed)
+
+		embed = discord.Embed(
+			title="10 Hot Posts from r/" + sr_name,
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		for post in post_list:
+			embed.add_field(name=post[0], value=post[1], inline=False)
+		# make thumbnail as subreddit's icon
+		if subreddit is None:
+			embed.set_thumbnail(url="https://external-preview.redd.it/iDdntscPf-nfWKqzHRGFmhVxZm4hZgaKe5oyFws-yzA.png?auto=webp&s=38648ef0dc2c3fce76d5e1d8639234d8da0152b2")
+		else:
+			embed.set_thumbnail(url=sr_icon)
+		embed.set_footer(text=f"Requested by {ctx.author.name}")
+	await ctx.send(embed=embed)
+
+# bot command (-memes)
+# summary: display a meme image from r/memes subreddit
+@bot.command(name="memes")
+async def memes(ctx):
+	async with ctx.typing():
+		post_list = []
+		sr = await r_auth.subreddit("memes") # get post info from subreddit
+		async for post in sr.hot():
+			post_list.append([post.title, post.shortlink, post.url])
+
+		random_post = random.choice(post_list)
+
+		embed = discord.Embed(
+			title=random_post[0],
+			url=random_post[1],
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		embed.set_image(url=random_post[2])
+		embed.set_footer(text=f"Requested by {ctx.author.name}")
+		await ctx.send(embed=embed)
+
+# bot command (-dog)
+# summary: display a cute dog image
+@bot.command(name="dog")
+async def dog(ctx):
+	# send get request, convert response to string, and load url
+	response  = requests.get("https://dog.ceo/api/breeds/image/random")
+	dog_image = json.loads(response.text)
+	print(dog_image)
+	if response:
+		embed = discord.Embed(
+			title="🐶🐶🐶",
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		embed.set_image(url=dog_image["message"])
+		embed.set_footer(text=f"Requested by {ctx.author.name}")
+	else:
+		embed = discord.Embed(
+			description="Error occured. Couldn't get dog image. ⛔", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+	await ctx.send(embed=embed)
+	
+# bot command (-cat)
+# summary: display a cute cat image
+@bot.command(name="cat")
+async def cat(ctx):
+	# send get request, convert response to string, and load url
+	response  = requests.get("https://api.thecatapi.com/v1/images/search")
+	cat_image = json.loads(response.text)
+	if response:
+		embed = discord.Embed(
+			title="🐱🐱🐱",
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		embed.set_image(url=cat_image[0]["url"])
+		embed.set_footer(text=f"Requested by {ctx.author.name}")
+	else:
+		embed = discord.Embed(
+			description="Error occured. Couldn't get cat image. ⛔", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+	await ctx.send(embed=embed)
+
+
+# bot command (-waifu)
+# summary: display a cute waifu image
+@bot.command(name="waifu")
+async def waifu(ctx):
+	amiru_url = "https://animu.p.rapidapi.com/waifus"
+	headers = {
+		'x-rapidapi-key': config.ANIMU_KEY,
+		'x-rapidapi-host': "animu.p.rapidapi.com"
+    }
+
+	response = requests.request("GET", amiru_url, headers=headers, stream=True)
+	waifu = json.loads(response.text)
+	if response:
+		embed = discord.Embed(
+			title=waifu["names"]["en"],
+			description="From: "+waifu["from"]["name"]+"\nMedia: "+waifu["from"]["type"],
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+		embed.set_image(url=waifu["images"][0])
+		embed.set_footer(text=f"Requested by {ctx.author.name}")
+	else:
+		embed = discord.Embed(
+			description="Error occured. Couldn't get waifu image. ⛔", 
+			color=discord.Colour.from_rgb(255,192,203)
+		)
+	await ctx.send(embed=embed)
+
+# run the bot with token`
 bot.run(config.TOKEN)
