@@ -8,7 +8,7 @@
   A personal Discord bot built with <a href="https://github.com/discord/discord-api-docs">discord.py</a>
 </h2>
 
-<p align="center"> Table of Content </p>
+<p align="center"> Table of Contents </p>
 
 <p align="center">
   <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-about">About</a> 
