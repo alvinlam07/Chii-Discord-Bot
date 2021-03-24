@@ -113,8 +113,6 @@ The prefix for these commands is `-`. Arguments encased with `[]` are required a
 | Cat     | Display a cute cat image                    | -cat   |
 | Waifu   | Display a cute waifu image                  | -waifu |
 
-  
-
 ## ✔ TODOs
 Chii is still in development and will be adding new features/updates at an upcoming time.
 Below are ideas that I would like to implement:
