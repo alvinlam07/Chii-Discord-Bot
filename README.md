@@ -73,7 +73,7 @@ pip install -U asyncprawcore
 ## 🤖 Command List:
 The prefix for these commands is `-`. Arguments encased with `[]` are required and `<>` are optional.
 
-### 🧑‍🤝‍🧑 Guild
+### 🧑‍🤝‍🧑 Utility
 | Command | Description                          | Usage   |
 |---------|--------------------------------------|---------|
 | Guild   | Display the guild/server information | -guild  |
