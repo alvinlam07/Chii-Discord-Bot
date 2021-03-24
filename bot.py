@@ -37,7 +37,7 @@ async def on_ready():
 # summary: send an embedded message to the new member through direct message
 @bot.event
 async def on_member_join(member):
-	guild_list     = bot.guilds	
+	guild_list = bot.guilds	
 	# store the guild's name and icon url the member just joined
 	for guild in guild_list:
 		if member.guild.id == guild.id:
