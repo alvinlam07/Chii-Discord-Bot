@@ -5,7 +5,7 @@
 </h3>
 
 <h2 align="center">
-  A personal Discord bot built with <a href="https://github.com/discord/discord-api-docs">discord.py</a>
+  A personal Python Discord bot built with <a href="https://github.com/discord/discord-api-docs">discord.py</a>
 </h2>
 
 <p align="center"> Table of Contents </p>
