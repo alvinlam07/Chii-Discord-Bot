@@ -129,7 +129,7 @@ Below are ideas that I would like to implement:
   - [x] Dog & Cat
   - [x] Anime
 - [ ] Host it in the cloud (using [repl.it](https://repl.it) or some other alternative) or locally (using raspberry pi)
-- [ ] Organize the project more (seperate certain functions into different file)
+- [x] Organize the project more (seperate certain functions into different file)
 - [x] Add server info command to show info of current server
 
 And more will be added.
