@@ -67,6 +67,10 @@ class CommandEvents(commands.Cog):
                 embed.description = "Never gonna tell a lie and hurt you! 🎶"
                 await message.channel.send(embed=embed)
 
+            # delete message containing certain strings
+            if ("rugby" in message.content.lower()) or ("cricket" in message.content.lower()):
+                await ctx.message.delete()
+
             #-----------reacting to string messages------------
 
             if ("hi" in message.content.lower()) or ("hey" in message.content.lower()) or ("hello" in message.content.lower()):
