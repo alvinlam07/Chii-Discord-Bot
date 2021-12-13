@@ -75,28 +75,5 @@ class ImageCommands(commands.Cog):
             embed.description = "Error occured. Couldn't get cat image. ⛔"
         await ctx.send(embed=embed)
 
-    # bot command (-waifu)
-    # summary: display a cute waifu image
-    @commands.command(name="waifu")
-    async def waifu(self, ctx):
-        embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
-
-        amiru_url = "https://animu.p.rapidapi.com/waifus"
-        headers = {
-            'x-rapidapi-key': config.ANIMU_KEY,
-            'x-rapidapi-host': "animu.p.rapidapi.com"
-        }
-
-        response = requests.request("GET", amiru_url, headers=headers, stream=True)
-        waifu = json.loads(response.text)
-        if response:
-            embed.title       = waifu["names"]["en"]
-            embed.description = "From: "+waifu["from"]["name"]+"\nMedia: "+waifu["from"]["type"]
-            embed.set_image(url=waifu["images"][0])
-            embed.set_footer(text=f"Requested by {ctx.author.name}")
-        else:
-            embed.description = "Error occured. Couldn't get waifu image. ⛔"
-        await ctx.send(embed=embed)
-
 def setup(bot):
     bot.add_cog(ImageCommands(bot))
