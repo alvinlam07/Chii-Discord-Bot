@@ -1,4 +1,3 @@
-song.mp3
 config.py
 __pycache__/config.cpython-38.pyc
 cogs/__pycache__/CommandEvents.cpython-38.pyc
@@ -8,3 +7,4 @@ cogs/__pycache__/ProbabilityCommands.cpython-38.pyc
 cogs/__pycache__/RedditCommands.cpython-38.pyc
 cogs/__pycache__/UtilityCommands.cpython-38.pyc
 cogs/__pycache__/WeatherCommands.cpython-38.pyc
+images/profile.jpeg
