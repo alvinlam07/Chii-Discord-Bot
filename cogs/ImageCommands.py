@@ -1,6 +1,8 @@
 # ImageCommands.py
 import discord, os, sys, random, asyncpraw, asyncprawcore, requests, json
 from discord.ext import commands
+from PIL import Image
+from io import BytesIO
 if not os.path.isfile("config.py"):
 	sys.exit("'config.py' could not be found. Add the file and try again.")
 else:
@@ -49,7 +51,6 @@ class ImageCommands(commands.Cog):
         # send get request, convert response to string, and load url
         response  = requests.get("https://dog.ceo/api/breeds/image/random")
         dog_image = json.loads(response.text)
-        print(dog_image)
         if response:
             embed.title = "🐶🐶🐶"
             embed.set_image(url=dog_image["message"])
@@ -74,6 +75,24 @@ class ImageCommands(commands.Cog):
         else:
             embed.description = "Error occured. Couldn't get cat image. ⛔"
         await ctx.send(embed=embed)
+
+    # bot command (-wanted)
+    # summary: image manipulation; display a wanted poster of user
+    @commands.command(name="wanted")
+    async def wanted(self, ctx, user: discord.Member = None):
+        if user == None:
+            user = ctx.author
+
+        wanted = Image.open("./images/wanted.jpeg")
+
+        asset = user.avatar_url_as(size=128)
+        data  = BytesIO(await asset.read())
+        pfp   = Image.open(data).resize((177, 177))
+
+        wanted.paste(pfp, (120, 212))
+        wanted.save("./images/profile.jpeg")
+
+        await ctx.send(file = discord.File("./images/profile.jpeg"))
 
 def setup(bot):
     bot.add_cog(ImageCommands(bot))
