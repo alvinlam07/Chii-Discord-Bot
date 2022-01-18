@@ -94,5 +94,22 @@ class ImageCommands(commands.Cog):
 
         await ctx.send(file = discord.File("./images/profile.jpeg"))
 
+    # bot command (-waifu)
+    # summary: display a waifu image
+    @commands.command(name="waifu")
+    async def waifu(self, ctx):
+        embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
+
+        # send get request, convert response to string, and load url
+        response = requests.get("https://api.waifu.pics/sfw/waifu")
+        waifu_img = json.loads(response.text)
+        if response:
+            embed.title = "Here's your waifu!"
+            embed.set_image(url=waifu_img["url"])
+            embed.set_footer(text=f"Requested by {ctx.author.name}")
+        else:
+            embed.description = "Error occured. Couldn't get waifu image. ⛔"
+        await ctx.send(embed=embed)
+
 def setup(bot):
     bot.add_cog(ImageCommands(bot))
