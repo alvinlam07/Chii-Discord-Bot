@@ -1,5 +1,5 @@
 # ImageCommands.py
-import discord, os, sys, random, asyncpraw, asyncprawcore, requests, json
+import discord, os, sys, random, asyncpraw, requests, json
 from discord.ext import commands
 from PIL import Image
 from io import BytesIO
@@ -95,7 +95,7 @@ class ImageCommands(commands.Cog):
         await ctx.send(file = discord.File("./images/profile.jpeg"))
 
     # bot command (-waifu)
-    # summary: display a waifu image
+    # summary: display a cute cat image
     @commands.command(name="waifu")
     async def waifu(self, ctx):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
