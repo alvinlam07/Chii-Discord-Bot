@@ -1,4 +1,5 @@
 # FunCommands.py
+import re
 import discord, os, sys, requests, json
 from discord.ext import commands
 if not os.path.isfile("config.py"):
@@ -40,12 +41,30 @@ class FunCommands(commands.Cog):
             if response:
                 embed.title = "Random Activity You Can Do!"
                 embed.description = activity["activity"]
-                embed.add_field(name="Type of Activity:", value=activity["type"])
-                embed.add_field(name="Number of Participant(s):", value=activity["participants"])
+                embed.add_field(name="Type of Activity:", value=activity["type"], inline=False)
+                embed.add_field(name="Number of Participant(s):", value=activity["participants"], inline=False)
                 embed.set_footer(text=f"Requested by {ctx.author.name}")
             else:
                 embed.description = "Error occured. Couldn't get random activity. ⛔"
             await ctx.send(embed=embed)
+
+    # bot command (-apod)
+    # summary: display NASA's APOD (Astronomy Picture of the Day) and information about it
+    @commands.command(name="apod")
+    async def apod(self, ctx):
+        embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
+
+        # send get request, convert response to string, and load url
+        response = requests.get("https://api.nasa.gov/planetary/apod?api_key=" + config.NASA_KEY)
+        pic = json.loads(response.text)
+        if response:
+            embed.title = pic["title"]
+            embed.description = pic["explanation"]
+            embed.set_image(url=pic["hdurl"])
+            embed.set_footer(text=f"Requested by {ctx.author.name}")
+        else:
+            embed.description = "Error occured. Couldn't get APOD. ⛔"
+        await ctx.send(embed=embed)
 
 def setup(bot):
     bot.add_cog(FunCommands(bot))
