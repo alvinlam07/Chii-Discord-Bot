@@ -12,7 +12,7 @@ class WeatherCommands(commands.Cog):
 
     # bot command (-weather [City])
     # summary: displays the weather information for a city name
-    @commands.command(name="weather")
+    @commands.command(name="weather", brief="Displays the weather information for a city name")
     async def weather(self, ctx, *, city: str):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 

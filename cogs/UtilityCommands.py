@@ -7,8 +7,8 @@ class UtilityCommands(commands.Cog):
         self.bot = bot
 
     # bot command (-guild)
-    # summary: display the information of the guild
-    @commands.command(name="guild")
+    # summary: displays the information of the guild
+    @commands.command(name="guild", brief="Displays the information of the guild")
     async def guild(self, ctx):
         # get guild/server info
         name  		 = ctx.guild.name
@@ -33,8 +33,8 @@ class UtilityCommands(commands.Cog):
         await ctx.send(embed=embed)
 
     # bot command (-server)
-    # summary: display the information of the guild (invoke -guild command)
-    @commands.command(name="server")
+    # summary: displays the information of the guild (invoke -guild command)
+    @commands.command(name="server", brief="Displays the information of the guild (invoke -guild command)")
     async def server(self, ctx):
         await ctx.invoke(self.bot.get_command("guild"))
 

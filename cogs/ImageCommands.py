@@ -15,8 +15,8 @@ class ImageCommands(commands.Cog):
         self.bot = bot
 
     # bot command (-memes)
-    # summary: display a meme image from r/memes subreddit
-    @commands.command(name="memes")
+    # summary: displays a meme image from r/memes subreddit
+    @commands.command(name="memes", brief="Displays a meme image from r/memes subreddit")
     async def memes(self, ctx):
         # reddit authentication
         r_auth = asyncpraw.Reddit(
@@ -43,8 +43,8 @@ class ImageCommands(commands.Cog):
             await ctx.send(embed=embed)
 
     # bot command (-dog)
-    # summary: display a cute dog image
-    @commands.command(name="dog")
+    # summary: displays a cute dog image
+    @commands.command(name="dog", brief="Displays a cute dog image")
     async def dog(self, ctx):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 
@@ -60,8 +60,8 @@ class ImageCommands(commands.Cog):
         await ctx.send(embed=embed)
         
     # bot command (-cat)
-    # summary: display a cute cat image
-    @commands.command(name="cat")
+    # summary: displays a cute cat image
+    @commands.command(name="cat", brief="Displays a cute cat image")
     async def cat(self, ctx):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 
@@ -77,8 +77,8 @@ class ImageCommands(commands.Cog):
         await ctx.send(embed=embed)
 
     # bot command (-wanted)
-    # summary: image manipulation; display a wanted poster of user
-    @commands.command(name="wanted")
+    # summary: image manipulation; displays a wanted poster of user
+    @commands.command(name="wanted", brief="Displays a wanted poster of user")
     async def wanted(self, ctx, user: discord.Member = None):
         if user == None:
             user = ctx.author
@@ -96,7 +96,7 @@ class ImageCommands(commands.Cog):
 
     # bot command (-waifu)
     # summary: display a cute cat image
-    @commands.command(name="waifu")
+    @commands.command(name="waifu", brief="Display a cute cat image")
     async def waifu(self, ctx):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 

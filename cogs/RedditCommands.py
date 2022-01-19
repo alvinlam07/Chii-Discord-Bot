@@ -1,5 +1,5 @@
 # RedditCommands.py
-import discord, os, sys, asyncpraw, asyncprawcore
+import discord, os, sys, asyncpraw
 from discord.ext import commands
 if not os.path.isfile("config.py"):
 	sys.exit("'config.py' could not be found. Add the file and try again.")
@@ -12,7 +12,7 @@ class RedditCommands(commands.Cog):
 
     # bot command (-reddit <subreddit>)
     # summary: displays the 10 hottest posts from all subreddit or from a specfic subreddit
-    @commands.command(name="reddit")
+    @commands.command(name="reddit", brief="Displays the 10 hottest posts from reddit")
     async def reddit(self, ctx, *, subreddit: str=None):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 

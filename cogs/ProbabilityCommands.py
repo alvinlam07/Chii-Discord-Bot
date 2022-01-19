@@ -10,7 +10,7 @@ class ProbabilityCommands(commands.Cog):
 
     # bot command (-coinflip)
     # summary: flips a coin
-    @commands.command(name="coinflip")
+    @commands.command(name="coinflip", brief="Flips a coin")
     async def coin_flip(self, ctx):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 
@@ -25,7 +25,7 @@ class ProbabilityCommands(commands.Cog):
 
     # bot command (-rolldice)
     # summary: rolls a dice
-    @commands.command(name="rolldice")
+    @commands.command(name="rolldice", brief="Rolls a dice")
     async def dice_roll(self, ctx):
         dice = random.randint(1, 6)
         if dice in range(1, 7):
@@ -37,7 +37,7 @@ class ProbabilityCommands(commands.Cog):
 
     # bot command (-choose [n] [m])
     # summary: chooses a number between n and m
-    @commands.command(name = 'choose')
+    @commands.command(name = 'choose', brief="Chooses a number between n and m")
     async def choose(self, ctx, num1: int, num2: int):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 

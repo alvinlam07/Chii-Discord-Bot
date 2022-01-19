@@ -13,7 +13,7 @@ class FunCommands(commands.Cog):
     
     # bot command (-randomquote)
     # summary: send a random quote
-    @commands.command(name="randomquote")
+    @commands.command(name="randomquote", brief="Send a random quote")
     async def random_quote(self, ctx):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 
@@ -30,7 +30,7 @@ class FunCommands(commands.Cog):
 
     # bot command (-randomactivity)
     # summary: send a random activity
-    @commands.command(name="randomactivity")
+    @commands.command(name="randomactivity", brief="Send a random activity")
     async def random_activity(self, ctx):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 
@@ -50,7 +50,7 @@ class FunCommands(commands.Cog):
 
     # bot command (-apod)
     # summary: display NASA's APOD (Astronomy Picture of the Day) and information about it
-    @commands.command(name="apod")
+    @commands.command(name="apod", brief="Display NASA's APOD (Astronomy Picture of the Day)")
     async def apod(self, ctx):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
 
