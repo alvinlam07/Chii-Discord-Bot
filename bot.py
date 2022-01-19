@@ -10,15 +10,15 @@ else:
 # create bot object, defined the prefix for bot commands, and enable all intents
 bot = Bot(command_prefix=config.BOT_PREFIX, intents=discord.Intents.all())
 
-# load extensions
-@bot.command(name="load")
-async def load(ctx, extension):
-	bot.load_extension(f"cos.{extension}")
+# # load extensions
+# @bot.command(name="load")
+# async def load(ctx, extension):
+# 	bot.load_extension(f"cos.{extension}")
 
-# unload extensions
-@bot.command(name="unload")
-async def unload(ctx, extension):
-	bot.unload_extension(f"cos.{extension}")
+# # unload extensions
+# @bot.command(name="unload")
+# async def unload(ctx, extension):
+# 	bot.unload_extension(f"cos.{extension}")
 
 # load each of the extensions
 for cog_file in os.listdir('./cogs'):
