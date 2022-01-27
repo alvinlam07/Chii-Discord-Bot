@@ -29,6 +29,9 @@ Chii is a personal Discord bot that is in continuous development. It uses the fo
 * [Reddit](https://github.com/reddit-archive/reddit)
 * [Dog API](https://github.com/ElliottLandsborough/dog-ceo-api)
 * [The Cat API](https://documenter.getpostman.com/view/5578104/RWgqUxxh)
+* [Quotable](https://github.com/lukePeavey/quotable)
+* [The Bored API](https://www.boredapi.com/)
+* [Astronomy Picture of the Day (APOD) microservice](https://github.com/nasa/apod-api)
 
 Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
 
@@ -40,7 +43,8 @@ Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?clien
 * Simple probability/chance
 * Display the weather for a city
 * Display the 10 hottest reddit posts
-* Display dog and cat images
+* Display images
+* Fun commands
 
 ## ⚙ Setup/Installation
 You can invite Chii to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
@@ -65,7 +69,7 @@ pip install -U discord.py
 ```
 
 ## 🤖 Command List:
-The prefix for these commands is `-`. Arguments encased with `[]` are required and `<>` are optional.
+The prefix for these commands is `-` (but it could whichever in the config). Arguments encased with `[]` are required and `<>` are optional.
 
 ### 🧑‍🤝‍🧑 Utility
 | Command | Description                          | Usage   |
@@ -96,6 +100,15 @@ The prefix for these commands is `-`. Arguments encased with `[]` are required a
 | Memes   | Display a meme image from r/memes subreddit | -memes |
 | Dog     | Display a cute dog image                    | -dog   |
 | Cat     | Display a cute cat image                    | -cat   |
+| Wanted  | Display a wanted poster of a user.          | -wanted|
+| Waifu   | Display a cute waifu image                  | -waifu |
+
+### 😆 Fun
+| Command        | Description                                                                 | Usage           |
+|----------------|-----------------------------------------------------------------------------|-----------------|
+| Randomquote    | Send a random quote                                                         | -randomquote    |
+| Randomactivity | Send a random activity image                                                | -randomactivity |
+| Apod           | display NASA's APOD (Astronomy Picture of the Day) and information about it | -apod           |
 
 ## ✔ TODOs
 Chii is still in development and will be adding new features/updates at an upcoming time.
@@ -106,7 +119,7 @@ Below are ideas that I would like to implement:
 - [ ] Add other APIs to it:
   - [ ] Spotify
   - [x] Weather
-  - [ ] Image-based
+  - [x] Image-based
   - [x] Reddit
   - [x] Dog & Cat
 - [ ] Host it in the cloud (using [repl.it](https://repl.it) or some other alternative) or locally (using raspberry pi)
