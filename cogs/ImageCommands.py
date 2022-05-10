@@ -95,7 +95,7 @@ class ImageCommands(commands.Cog):
         await ctx.send(file = discord.File("./images/profile.jpeg"))
 
     # bot command (-waifu)
-    # summary: display a cute cat image
+    # summary: display a cute waifu image
     @commands.command(name="waifu", brief="Display a cute cat image")
     async def waifu(self, ctx):
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
