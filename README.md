@@ -116,8 +116,7 @@ Below are ideas that I would like to implement:
 - [x] React to certain string messages
 - [x] Respond to reaction(s)
 - [ ] Add game command where users could interact with it
-- [ ] Add other APIs to it:
-  - [ ] Spotify
+- [x] Add other APIs to it:
   - [x] Weather
   - [x] Image-based
   - [x] Reddit
@@ -125,5 +124,3 @@ Below are ideas that I would like to implement:
 - [ ] Host it in the cloud (using [repl.it](https://repl.it) or some other alternative) or locally (using raspberry pi)
 - [x] Organize the project more (seperate certain functions into different file)
 - [x] Add server info command to show info of current server
-
-And more will be added.
