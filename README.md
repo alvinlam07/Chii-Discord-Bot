@@ -15,8 +15,6 @@
   | 
   <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-features">Features</a>
   | 
-  <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-setupinstallation">Setup/Installation</a>
-  | 
   <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-command-list">Command List</a>
   |
   <a href="https://github.com/alam1517/Chii-Discord-Bot/blob/main/README.md#-todos">TODOs</a>
