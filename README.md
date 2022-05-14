@@ -23,7 +23,7 @@
 </p>
 
 ## 📃 About
-Chii is a personal Discord bot that is in continuous development. It uses the following APIs:
+Chii is a personal Discord bot that is in continuous development. It uses the following APIs/Sources:
 * [Discord](https://github.com/discord/discord-api-docs)
 * [OpenWeather](https://openweathermap.org/current)
 * [Reddit](https://github.com/reddit-archive/reddit)
@@ -32,6 +32,7 @@ Chii is a personal Discord bot that is in continuous development. It uses the fo
 * [Quotable](https://github.com/lukePeavey/quotable)
 * [The Bored API](https://www.boredapi.com/)
 * [Astronomy Picture of the Day (APOD) microservice](https://github.com/nasa/apod-api)
+* [The Trivia API](https://the-trivia-api.com/)
 
 Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
 
@@ -45,28 +46,6 @@ Invite Chii to your server [here](https://discord.com/api/oauth2/authorize?clien
 * Display the 10 hottest reddit posts
 * Display images
 * Fun commands
-
-## ⚙ Setup/Installation
-You can invite Chii to your server using this [link](https://discord.com/api/oauth2/authorize?client_id=788205742188003368&permissions=8&scope=bot)!
-Alternatively, you can clone this repo and host it yourself:
-```
-git clone https://github.com/alam1517/Chii-Discord-Bot.git
-```
-Before starting, making sure that you have latest version of python3 and python3-pip.
-To check, do the following:
-```
-python3 --version
-pip --version
-```
-If you do not have either or both installed, do the following:
-```
-sudo apt-get install python3
-sudo apt-get install python3-pip
-```
-Afterwards, you will need to install the other libraries/APIs if you do not have it:
-```
-pip install -U discord.py
-```
 
 ## 🤖 Command List:
 The prefix for these commands is `-` (but it could whichever in the config). Arguments encased with `[]` are required and `<>` are optional.
