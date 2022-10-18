@@ -22,13 +22,13 @@ class CommandEvents(commands.Cog):
     # code is executed when a member joins a guild
     # summary: send an embedded message to the new member through direct message
     @commands.Cog.listener()
-    async def on_member_join(self, member):
-        guild_list = self.bot.guilds	
+    async def on_member_join(self, member: discord.Member):
+        guild_list = self.bot.guilds
         # store the guild's name and icon url the member just joined
         for guild in guild_list:
             if member.guild.id == guild.id:
                 guild_name = guild
-                guild_icon_url = guild.icon_url
+                guild_icon_url = guild.icon.url
 
         embed = discord.Embed(
             title=f"Welcome to the {guild_name} server!",
@@ -89,6 +89,7 @@ class CommandEvents(commands.Cog):
         print("\nCalled on_command_error") # for
         print("ERROR: "+str(error)) 	     # debugging
         embed = discord.Embed(color=discord.Colour.from_rgb(255,192,203))
+        embed.description = "An error has occurred"
 
         if isinstance(error, commands.CommandNotFound):
             return
@@ -96,5 +97,5 @@ class CommandEvents(commands.Cog):
             embed.description = "Error: Missing required argument(s). Try again. ⛔"
         await ctx.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(CommandEvents(bot))
+async def setup(bot):
+    await bot.add_cog(CommandEvents(bot))
